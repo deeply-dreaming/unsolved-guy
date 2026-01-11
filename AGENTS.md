@@ -1,4 +1,4 @@
-Ultimate Goal: Create separate .md files for each problem in Richard Guy's book "Unsolved Problems in Number Theory" (`/home/rahidz/coding/unsolved/guy2004.pdf`), including each problem's status (solved/unsolved) and, later, current research status for unsolved problems.
+Ultimate Goal: Create separate .md files for each problem in Richard Guy's book "Unsolved Problems in Number Theory" (`coding/unsolved/guy2004.pdf`), including each problem's status (solved/unsolved) and, later, current research status for unsolved problems.
 
 Scope and counts:
 - A1 to A20
@@ -14,7 +14,7 @@ File layout and naming:
 
 Environment:
 - WSL on Windows 11.
-- Work in `/home/rahidz/coding/unsolved`.
+- Work in `coding/unsolved`.
 
 Workflow:
 - Create `TODO.md` at repo root (from scratch) and follow it.

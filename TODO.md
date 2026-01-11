@@ -1,7 +1,7 @@
 # TODO
 
 ## 0) Prep
-- [x] Confirm PDF path: `/home/rahidz/coding/unsolved/guy2004.pdf`.
+- [x] Confirm PDF path: `coding/unsolved/guy2004.pdf`.
 - [x] Decide extraction tooling (preferred: `pdftotext`, `pdfinfo`; fallback: `python` + `pypdf`).
 - [x] Install missing tooling if needed (added `qpdf`, `ocrmypdf`).
 
