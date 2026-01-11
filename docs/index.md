@@ -1,13 +1,5 @@
 # Unsolved Problems in Number Theory (Guy) — One-Page Index
 
-This page is generated from the per-problem files (`A/A1.md`, `B/B1.md`, …). For now, `Solved?` is `Unknown` and `Research Notes` is blank (to be filled in later).
-
-Regenerate with:
-
-```bash
-python3 scripts/regen_onepage.py
-```
-
 ## Section A
 
 | Problem | Solved? | Research Notes |
