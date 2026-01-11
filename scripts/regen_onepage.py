@@ -60,22 +60,7 @@ def validate_section(section: str, entries: list[tuple[int, str, Path]]) -> list
 
 def build_onepage(repo_root: Path, sections: list[str], out_path: Path) -> str:
     out: list[str] = []
-    out.append("# Unsolved Problems in Number Theory (Guy) — One-Page Index")
-    out.append("")
-    out.append(
-        "This page is generated from the per-problem files (`A/A1.md`, `B/B1.md`, …). "
-        "For now, `Solved?` is `Unknown` and `Research Notes` is blank (to be filled in later)."
-    )
-    out.append("")
-    out.append("Regenerate with:")
-    out.append("")
-    out.append("```bash")
-    out_rel = out_path.relative_to(repo_root).as_posix()
-    if out_rel == "ONEPAGE.md":
-        out.append("python3 scripts/regen_onepage.py")
-    else:
-        out.append(f"python3 scripts/regen_onepage.py --out {out_rel}")
-    out.append("```")
+    out.append('# "Unsolved Problems in Number Theory" (Richard Guy, 2004) - One-Page Index')
     out.append("")
 
     for section in sections:
@@ -86,12 +71,9 @@ def build_onepage(repo_root: Path, sections: list[str], out_path: Path) -> str:
         out.append("|---|---|---|")
         for num, content, path in entries:
             pid = f"{section}{num}"
-            # Emit links relative to the output file location so that GitHub Pages
-            # works correctly when `--out docs/index.md` is used.
-            rel_target = path.relative_to(repo_root)
-            rel_from = out_path.parent.relative_to(repo_root)
-            link = os.path.relpath(rel_target.as_posix(), start=rel_from.as_posix()).replace("\\", "/")
-            problem_cell = _escape_table_cell(f"[`{pid}`]({link}) — {content}")
+            # Intentionally do NOT link to per-problem files for the published page.
+            # This keeps the one-page index self-contained.
+            problem_cell = _escape_table_cell(f"{pid} — {content}")
             out.append(f"| {problem_cell} | Unknown | |")
         out.append("")
 
