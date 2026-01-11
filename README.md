@@ -54,6 +54,12 @@ python3 scripts/regen_onepage.py
 
 This generates `ONEPAGE.md`.
 
+If you want to publish via GitHub Pages from the `docs/` folder, generate:
+
+```bash
+python3 scripts/regen_onepage.py --out docs/index.md
+```
+
 ## Progress
 
 - Section A: complete (`A1`–`A20`)

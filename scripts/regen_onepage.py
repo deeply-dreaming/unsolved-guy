@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import re
 import sys
 from pathlib import Path
@@ -57,7 +58,7 @@ def validate_section(section: str, entries: list[tuple[int, str, Path]]) -> list
     return problems
 
 
-def build_onepage(repo_root: Path, sections: list[str]) -> str:
+def build_onepage(repo_root: Path, sections: list[str], out_path: Path) -> str:
     out: list[str] = []
     out.append("# Unsolved Problems in Number Theory (Guy) — One-Page Index")
     out.append("")
@@ -69,7 +70,11 @@ def build_onepage(repo_root: Path, sections: list[str]) -> str:
     out.append("Regenerate with:")
     out.append("")
     out.append("```bash")
-    out.append("python3 scripts/regen_onepage.py")
+    out_rel = out_path.relative_to(repo_root).as_posix()
+    if out_rel == "ONEPAGE.md":
+        out.append("python3 scripts/regen_onepage.py")
+    else:
+        out.append(f"python3 scripts/regen_onepage.py --out {out_rel}")
     out.append("```")
     out.append("")
 
@@ -81,8 +86,12 @@ def build_onepage(repo_root: Path, sections: list[str]) -> str:
         out.append("|---|---|---|")
         for num, content, path in entries:
             pid = f"{section}{num}"
-            rel = path.relative_to(repo_root).as_posix()
-            problem_cell = _escape_table_cell(f"[`{pid}`]({rel}) — {content}")
+            # Emit links relative to the output file location so that GitHub Pages
+            # works correctly when `--out docs/index.md` is used.
+            rel_target = path.relative_to(repo_root)
+            rel_from = out_path.parent.relative_to(repo_root)
+            link = os.path.relpath(rel_target.as_posix(), start=rel_from.as_posix()).replace("\\", "/")
+            problem_cell = _escape_table_cell(f"[`{pid}`]({link}) — {content}")
             out.append(f"| {problem_cell} | Unknown | |")
         out.append("")
 
@@ -121,8 +130,8 @@ def main(argv: list[str]) -> int:
     for s in sections:
         problems.extend(validate_section(s, collect_entries(repo_root, s)))
 
-    payload = build_onepage(repo_root, sections)
     out_path = repo_root / args.out
+    payload = build_onepage(repo_root, sections, out_path)
     if not args.dry_run:
         out_path.write_text(payload, encoding="utf-8")
 
@@ -143,4 +152,3 @@ def main(argv: list[str]) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main(sys.argv[1:]))
-
